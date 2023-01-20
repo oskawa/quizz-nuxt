@@ -48,7 +48,7 @@ export default {
   methods: {
     listBoard() {
       axios
-        .get("https://quizzappapi.local/?rest_route=/wp/v2/current_game/")
+        .get(process.env.wordpressAPI + "?rest_route=/wp/v2/current_game/")
         .then((response) => {
             console.log(response)
           this.array_games = response.data;

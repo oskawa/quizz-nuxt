@@ -5,10 +5,17 @@
       <button id="username_submit" v-on:click="client_user_connected(username)">
         Validate
       </button>
-      
+     
     </div>
     <div v-if="isAdmin && otherPlayer.length > 1">
-      <button id="start_game"  @click="loadImage(canvas,loadQuestions[questionNumber].image_quizz.url)">Commencer la partie</button>
+      <button
+        id="start_game"
+        @click="
+          loadImage(canvas, loadQuestions[questionNumber].image_quizz.url)
+        "
+      >
+        Commencer la partie
+      </button>
     </div>
     <div v-else>En attente...</div>
     <div class="container-canvas">
@@ -45,18 +52,17 @@ export default {
       questionNumber: 0,
       showInput: false,
       loadQuestions: [],
+      test: "",
     };
   },
   async mounted() {
     await axios
-      .get(process.env.wordpressAPI + "?rest_route=/wp/v2/current_game/",{
-        headers:{
-          'Access-Control-Allow-Origin' : '*'
-        }
-      })
+      .get(process.env.wordpressAPI + "?rest_route=/wp/v2/current_game/")
       .then((response) => {
         console.log(response.data);
-        let obj = response.data.find((o) => o.acf.game_id === this.$route.query.id);
+        let obj = response.data.find(
+          (o) => o.acf.game_id === this.$route.query.id
+        );
 
         console.log(obj);
 
@@ -65,13 +71,16 @@ export default {
         } else {
           axios
             .get(
-              process.env.wordpressAPI + "?rest_route=/wp/v2/questions_lists&slug=" +
-                obj.acf.quizz_game + '&acf_format=standard'
+              process.env.wordpressAPI +
+                "?rest_route=/wp/v2/questions_lists&slug=" +
+                obj.acf.quizz_game +
+                "&acf_format=standard"
             )
             .then((response) => {
-              console.log(response)
+              console.log(response);
               this.loadQuestions = response.data[0].acf.quizz_list_questions;
               console.log(this.loadQuestions);
+              this.test = this.loadQuestions[0].image_quizz.url;
             });
         }
       });
@@ -96,35 +105,45 @@ export default {
       console.log("ehllo !");
       this.isAdmin = data;
     });
-    this.fabricInit()
-
-    
+    this.fabricInit();
   },
   methods: {
     client_user_connected(name) {
       console.log(name);
-      this.vm.socket.emit("user_arrived", { room: this.$route.query.id, username: name });
+      this.vm.socket.emit("user_arrived", {
+        room: this.$route.query.id,
+        username: name,
+      });
     },
     fabricInit() {
       this.canvas = new fabric.Canvas("canvas");
       this.canvas.setWidth(800);
       this.canvas.setHeight(600);
-      console.log(this.canvas)
+      console.log(this.canvas);
     },
     loadImage(canvas, url) {
-      (this.showInput = false),
-        fabric.Image.fromURL(url, (oImg) => {
-          this.oImg = oImg;
-          this.oImg.scale(0.5);
-          this.oImg.filters.push(
-            new fabric.Image.filters.Pixelate({
-              blocksize: 50,
-            })
-          );
-          this.oImg.applyFilters();
-          canvas.add(this.oImg);
-          canvas.renderAll();
-        },{ crossOrigin: 'anonymous'});
+      this.showInput = false;
+      // fabric.Image.fromURL(
+      //   url,
+      //   (oImg) => {
+      //     this.oImg = oImg;
+      //     this.oImg.scale(0.5);
+      //     this.oImg.filters.push(
+      //       new fabric.Image.filters.Pixelate({
+      //         blocksize: 50,
+      //       })
+      //     );
+      //     this.oImg.applyFilters();
+      //     canvas.add(this.oImg);
+      //     canvas.renderAll();
+      //   },
+      //   { crossOrigin: "anonymous" }
+      // );
+      fabric.util.loadImage(url, function (img) {
+        var fab_image = new fabric.Image(img);
+        canvas.add(fab_image);
+        canvas.renderAll();
+      });
     },
   },
 };
