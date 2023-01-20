@@ -1,0 +1,78 @@
+@font-face {
+    font-family: "edosz";
+    src: local("edosz"),
+     url(~static/fonts/edosz.woff);
+}
+:root{
+    --font-h1: "edosz";
+    --size-title:144px;
+}
+body{
+    background-color: #101827;
+   
+}
+h1{
+    font-family: var(--font-h1);
+    color: #F5F5F5;
+    font-size: var(--size-title);
+}
+.btn-fill{
+    border: 1px solid #F5F5F5;
+    background-color: #f5f5f5;
+    color: #101827;
+    padding: 1rem;
+    width: 100%;
+    display: block;
+}
+.btn-stroke{
+    width: 100%;
+    border: 1px solid #F5F5F5;
+    color: #F5F5F5;
+    display: block;
+    padding: 1rem;
+}
+
+.home-row{
+    justify-content: center;
+}
+
+section.create{
+    height: 100vh;
+}
+.create-container, .create-row{
+    height: 100%;
+}
+.create-row{
+    align-items: center;
+}
+.create-col{
+    display: flex;
+    flex-direction: column;
+}
+
+.create-col h2{
+    color: white;
+    margin-bottom: 2rem;
+}
+
+.input-stroke{
+    width: 100%;
+    border: 1px solid #F5F5F5;
+    color: #F5F5F5;
+    display: block;
+    padding: 1rem;
+    background-color: transparent;
+}
+
+.create-col input, .create-col select{
+    margin-bottom: 2rem;
+}
+
+.list-game__single{
+    border: 1px solid #F5F5F5;
+    color: white;
+}
+.list-game__single a{
+    color: white;
+    background-color: transparent;
+}
