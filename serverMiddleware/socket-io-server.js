@@ -34,6 +34,28 @@ io.on("connection", socket => {
     socket.on('game_created', () => {
         io.emit('update_list');
     }); 
+    socket.on('client_user_start', function(data){
+        socket.to(data.room).emit('server_game_started');
+    })
+    socket.on('client_user_send_username', function(data){
+        socket.to(data.room).emit('server_user_send_username', {socket : socket.id, Opponentusername:data.username});
+    })
+    socket.on('client_user_response', function(data){
+       
+        socket.to(data.room).emit('server_user_paused');
+    })
+    socket.on('client_user_next_question', function(data){
+       
+        socket.to(data.room).emit('server_next_question');
+    })
+    socket.on('client_user_good_response', function(data){
+         
+        socket.to(data.room).emit('server_opponent_good_response', {scoreOpponent : data.scoreOpponent});
+    })
+    socket.on('client_user_bad_response', function(data){
+         
+        socket.to(data.room).emit('server_opponent_bad_response');
+    })
 
 
     socket.on("disconnect", () => {

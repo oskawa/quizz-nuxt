@@ -18,18 +18,12 @@
             id="game_private"
             value="false"
           />
-          document.getElementById("game_selector")
+        
           <select class="input-stroke" name="game_selector" id="game_selector">
-            <option value="">Jeu vidéo</option>
-            <option value="">Films</option>
+            <option v-for="quizz in listQuizz" :key="quizz.id" :value="quizz.slug">{{quizz.title.rendered}}</option>
+
           </select>
-          <input
-            placeholder="Pseudonyme"
-            type="text"
-            class="input-stroke"
-            name="game_pseudonyme"
-            id="game_pseudonyme"
-          />
+          
           <button class="btn-fill" @click="createBoard">Créer la partie</button>
         </div>
       </div>
@@ -48,11 +42,12 @@ export default {
       username: "wordpress.api",
       application_password: "dP7Y DIwr 0DPA xXtJ jkDh KAzv",
       vm: this,
+      listQuizz : []
     };
   },
   mounted() {
     // use "main" socket defined in nuxt.config.js
-this.vm.socket = this.$nuxtSocket({
+    this.vm.socket = this.$nuxtSocket({
       name: "main", // select "main" socket from nuxt.config.js - we could also skip this because "main" is the default socket
     });
     document.getElementById("game_private").addEventListener("change", (event) => {
@@ -62,19 +57,27 @@ this.vm.socket = this.$nuxtSocket({
         document.getElementById("game_private").value = false;
       }
     });
+    this.retrieveQuizzList()
   },
   methods: {
+    retrieveQuizzList() {
+      axios.get(
+        axios.get(process.env.wordpressAPI + "?rest_route=/wp/v2/questions_lists")
+        .then((response) =>{
+          console.log(response)
+          this.listQuizz = response.data
+        })
+      );
+    },
     createBoard() {
       axios
-
         .post(
-          "https://quizzappapi.local/?rest_route=/wp/v2/current_game/",
+          process.env.wordpressAPI + "?rest_route=/wp/v2/current_game/",
           {
             JWT: "dP7Y DIwr 0DPA xXtJ jkDh KAzv",
             content: "test",
             acf: {
               game_private: document.getElementById("game_private"),
-              game_admin_pseudo: document.getElementById("game_pseudonyme").value,
               game_id: this.multiID,
               game_name: document.getElementById("game_name").value,
               quizz_game: document.getElementById("game_selector").value,

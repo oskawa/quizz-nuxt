@@ -76,3 +76,112 @@ section.create{
     color: white;
     background-color: transparent;
 }
+
+
+.content-game{
+    height: 100vh;
+    position: relative;
+}
+.content-game__header{
+    position: fixed;
+    top: 0;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+.content-game__header h1{
+    font-size: 4rem;
+}
+.content-game__header span{
+    color: #F5F5F5;
+}
+.content-game__container, .content-game__row{
+    height: 100%;
+}
+.content-game__row{
+    justify-content: center;
+    align-items: center;
+}
+.content-game__row h3{
+    font-size: 2rem;
+    font-family: var(--font-h1);
+    text-align: center;
+    color: #F5F5F5;
+}
+.content-game__row canvas{
+    min-height: 300px;
+    width: 100%;
+}
+.content-game__inputs{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.content-game__inputs input{
+    width: 100%;
+    border: none;
+    background-color: white;
+    margin-bottom: 1.5rem;
+    padding: 0.5rem 0.5rem;
+}
+.content-game__inputs button{
+    width: 100%;
+    background-color: #564DC0;
+    color: #F5F5F5;
+    text-transform: uppercase;
+    border: none;
+}
+.content-game__inputs button:disabled{
+    opacity: 0.4;
+}
+.content-game__inputs button:hover{
+    background-color: #4037a5;
+}
+
+.popup{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+.popup-modal{
+    width: 50vw;
+    height: 50vh;
+    background-color: #F5F5F5;
+    border-radius: 20px;
+}
+
+.popup-modal__content{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.pop-up__username{
+    display: flex;
+    flex-direction: column;
+}
+.pop-up__username button{
+    margin-top: 0.5rem;
+    width: 100%;
+    background-color: #564DC0;
+    color: #F5F5F5;
+    text-transform: uppercase;
+    border: none;
+}
+
+.user_list{
+    display: flex;
+    flex-direction: column;
+}
