@@ -3,6 +3,7 @@ export default {
   env: {
     wordpressAPI: process.env.WORDPRESSAPI || 'http://localhost:3000'
   },
+  target: 'static',
   head: {
     title: 'nuxt-socket-io-demo',
     htmlAttrs: {
